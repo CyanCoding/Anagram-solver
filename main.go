@@ -33,13 +33,28 @@ func containsString(array []string, test string) bool {
 	return false
 }
 
+func duplicateLetter(word string) int {
+	// Word map of string: int values
+	var wordMap = make(map[string]int)
+
+	// For each letter, add to that key
+	for i := 0; i < len(word); i++ {
+		wordMap[string(word[i])]++
+	}
+
+	// In the end you have a map of 1 of each letter.
+	// No duplicates are allowed in a map, so
+	// we can print the length
+	return len(wordMap)
+}
+
 func getAnagrams(word string) {
 	var alreadyUsed []string
 
 	// Get amount of possibilities
 	factorial := 1
 	// Get factorial of anagrams
-	for i := len(word); i > 0; i-- {
+	for i := duplicateLetter(word); i > 0; i-- {
 		factorial = i * factorial
 	}
 
@@ -71,7 +86,7 @@ func main() {
 	}()
 
 	fmt.Print("Anagram > ")
-	var word string = "snacky"
+	var word string = "hello"
 	fmt.Scanln(&word)
 
 	getAnagrams(word)
