@@ -9,10 +9,12 @@ import (
 	"time"
 
 	gosort "github.com/cyancoding/go-sort"
+	"github.com/slok/gospinner"
 )
 
 var dictionary []string
 var results []string
+var s *gospinner.Spinner
 
 func readWordsFile(wordsFile string) []string {
 	byteData, err := ioutil.ReadFile(wordsFile)
@@ -106,9 +108,17 @@ func main() {
 	for _, value := range duplicateLetter(word) {
 		divisor *= factorial(value)
 	}
+	s, _ = gospinner.NewSpinner(gospinner.Dots2)
+	s.Start("Finding matches (0/" + strconv.Itoa(lengthFactorial/divisor) + ")")
+
 	getAnagrams(word, lengthFactorial/divisor)
 
-	fmt.Println(hash[gosort.SortString(word)])
+	s.SetMessage("Found all matches!")
+	s.Succeed()
 
-	//getAnagrams(word)
+	fmt.Println(hash[gosort.SortString(word)])
+	for _, a := range results {
+		fmt.Println(a)
+	}
+
 }
